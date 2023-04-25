@@ -57,7 +57,7 @@ public class SimCard {
     JSONObject toJSON() {
         JSONObject json = new JSONObject();
         try {
-            json.put("iccId", iccId)
+            json.put("iccId", iccId);
             json.put("carrierName", carrierName);
             json.put("displayName", displayName);
             json.put("slotIndex", slotIndex);
