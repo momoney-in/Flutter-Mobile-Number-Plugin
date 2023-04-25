@@ -25,7 +25,7 @@ public class SimCard {
         this.displayName = subscriptionInfo.getDisplayName().toString();
         this.slotIndex = subscriptionInfo.getSimSlotIndex();
         this.subscriptionId = subscriptionInfo.getSubscriptionId();
-        this.number = subscriptionInfo.getPhoneNumber(this.subscriptionId);
+        this.number = subscriptionInfo.getNumber();
         if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
             this.countryIso = subscriptionInfo.getCountryIso();
         else if (telephonyManager.getSimCountryIso() != null)
