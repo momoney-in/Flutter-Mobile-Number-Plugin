@@ -138,7 +138,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
                     Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED;
         } else {
             return ContextCompat.checkSelfPermission(applicationContext,
-                    Manifest.permission.READ_PRIVILEGED_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+                    Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
         }
     }
 
@@ -155,10 +155,10 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
             }
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    Manifest.permission.READ_PRIVILEGED_PHONE_STATE)) {
+                    Manifest.permission.READ_PHONE_STATE)) {
             } else {
                 ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.READ_PRIVILEGED_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+                        new String[]{Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
             }
         }
     }
@@ -199,7 +199,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
     @SuppressLint("HardwareIds")
     SimCard getSingleSimCard() {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_DENIED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PRIVILEGED_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             Log.e("UNAVAILABLE", "No phone number on sim card Permission Denied#2", null);
             return null;
         } else if (telephonyManager.getLine1Number() == null || telephonyManager.getLine1Number().isEmpty()) {
@@ -214,7 +214,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
         final SubscriptionManager subscriptionManager = (SubscriptionManager) activity.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_DENIED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PRIVILEGED_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             Log.e("UNAVAILABLE", "No phone number on sim card Permission Denied#1", null);
             return new ArrayList<>();
         } else if (subscriptionManager == null) {
