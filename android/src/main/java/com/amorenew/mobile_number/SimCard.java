@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SimCard {
-
+    private int subscriptionId = 0;
     private String carrierName = "";
     private String displayName = "";
     private int slotIndex = 0;
@@ -24,7 +24,8 @@ public class SimCard {
         this.carrierName = subscriptionInfo.getCarrierName().toString();
         this.displayName = subscriptionInfo.getDisplayName().toString();
         this.slotIndex = subscriptionInfo.getSimSlotIndex();
-        this.number = subscriptionInfo.getNumber();
+        this.subscriptionId = subscriptionInfo.getSubscriptionId();
+        this.number = subscriptionInfo.getPhoneNumber(this.subscriptionId);
         if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
             this.countryIso = subscriptionInfo.getCountryIso();
         else if (telephonyManager.getSimCountryIso() != null)
@@ -60,6 +61,7 @@ public class SimCard {
             json.put("number", number);
             json.put("countryIso", countryIso);
             json.put("countryPhonePrefix", countryPhonePrefix);
+            json.put("subscriptionId", subscriptionId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

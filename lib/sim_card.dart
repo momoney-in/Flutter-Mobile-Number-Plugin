@@ -4,6 +4,7 @@ class SimCard {
   final String? carrierName;
   final String? displayName;
   final int? slotIndex;
+  final int? subscriptionId;
   final String? number;
   final String? countryIso;
   final String? countryPhonePrefix;
@@ -15,6 +16,7 @@ class SimCard {
     this.number,
     this.countryIso,
     this.countryPhonePrefix,
+    this.subscriptionId,
   });
 
   factory SimCard.fromMap(Map<String, dynamic> json) => SimCard(
@@ -24,6 +26,7 @@ class SimCard {
         number: json["number"],
         countryIso: json["countryIso"],
         countryPhonePrefix: json["countryPhonePrefix"],
+        subscriptionId: json["subscriptionId"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -33,6 +36,7 @@ class SimCard {
         "number": number,
         "countryIso": countryIso,
         "countryPhonePrefix": countryPhonePrefix,
+        "subscriptionId": subscriptionId,
       };
 
   static List<SimCard> parseSimCards(String str) =>
