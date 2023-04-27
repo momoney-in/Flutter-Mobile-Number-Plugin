@@ -178,7 +178,8 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
         JSONArray simJsonArray = new JSONArray();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
             for (SubscriptionInfo subscriptionInfo : getSubscriptions()) {
-                SimCard simCard = new SimCard(telephonyManager, subscriptionInfo);
+                final SubscriptionManager subscriptionManager = (SubscriptionManager) activity.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                SimCard simCard = new SimCard(subscriptionManager, telephonyManager, subscriptionInfo);
                 simJsonArray.put(simCard.toJSON());
             }
         }

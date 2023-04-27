@@ -3,6 +3,8 @@ package com.amorenew.mobile_number;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+
 import android.telephony.TelephonyManager;
 
 import androidx.annotation.RequiresApi;
@@ -21,12 +23,12 @@ public class SimCard {
     private String countryPhonePrefix = "";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
-    public SimCard(TelephonyManager telephonyManager, SubscriptionInfo subscriptionInfo) {
+    public SimCard(SubscriptionManager subscriptionManager, TelephonyManager telephonyManager, SubscriptionInfo subscriptionInfo) {
         this.carrierName = subscriptionInfo.getCarrierName().toString();
         this.displayName = subscriptionInfo.getDisplayName().toString();
         this.slotIndex = subscriptionInfo.getSimSlotIndex();
         this.subscriptionId = subscriptionInfo.getSubscriptionId();
-        this.number = subscriptionInfo.getNumber();
+        this.number = subscriptionManager.getPhoneNumber(this.slotIndex);
         this.iccId = subscriptionInfo.getIccId();
         if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
             this.countryIso = subscriptionInfo.getCountryIso();
