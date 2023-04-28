@@ -22,28 +22,17 @@ public class SimCard {
     private String countryIso = "";
     private String countryPhonePrefix = "";
 
-    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
-    public SimCard(SubscriptionManager subscriptionManager, TelephonyManager telephonyManager, SubscriptionInfo subscriptionInfo) {
-        this.carrierName = subscriptionInfo.getCarrierName().toString();
-        this.displayName = subscriptionInfo.getDisplayName().toString();
-        this.slotIndex = subscriptionInfo.getSimSlotIndex();
-        this.subscriptionId = subscriptionInfo.getSubscriptionId();
-        this.number = subscriptionManager.getPhoneNumber(this.slotIndex);
-        this.iccId = subscriptionInfo.getIccId();
-        if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
-            this.countryIso = subscriptionInfo.getCountryIso();
-        else if (telephonyManager.getSimCountryIso() != null)
-            this.countryIso = telephonyManager.getSimCountryIso();
-        this.countryPhonePrefix = CountryToPhonePrefix.prefixFor(this.countryIso);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public SimCard(SubscriptionManager subscriptionManager, TelephonyManager telephonyManager, SubscriptionInfo subscriptionInfo) {
         this.carrierName = subscriptionInfo.getCarrierName().toString();
         this.displayName = subscriptionInfo.getDisplayName().toString();
         this.slotIndex = subscriptionInfo.getSimSlotIndex();
         this.subscriptionId = subscriptionInfo.getSubscriptionId();
-        this.number = subscriptionInfo.getNumber();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            this.number = subscriptionManager.getPhoneNumber(this.slotIndex);
+        } else {
+            this.number = subscriptionInfo.phoneNumber();
+        }
         this.iccId = subscriptionInfo.getIccId();
         if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
             this.countryIso = subscriptionInfo.getCountryIso();
