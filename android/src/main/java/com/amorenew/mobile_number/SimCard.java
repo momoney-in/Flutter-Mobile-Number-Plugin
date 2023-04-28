@@ -31,7 +31,7 @@ public class SimCard {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             this.number = subscriptionManager.getPhoneNumber(this.slotIndex);
         } else {
-            this.number = subscriptionInfo.phoneNumber();
+            this.number = subscriptionInfo.getNumber();
         }
         this.iccId = subscriptionInfo.getIccId();
         if (subscriptionInfo.getCountryIso() != null && !subscriptionInfo.getCountryIso().isEmpty())
