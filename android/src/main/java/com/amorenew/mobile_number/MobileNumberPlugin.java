@@ -37,7 +37,7 @@ import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
  * MobileNumberPlugin
  */
 public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, RequestPermissionsResultListener {
-    private static final int MY_PERMISSIONS_REQUEST_READ_PRECISE_PHONE_STATE = 0;
+    private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     final String Event_phonePermissionResult = "requestPhonePermission=";
     private EventChannel.EventSink permissionEvent;
     private Context applicationContext;
@@ -138,7 +138,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
                     Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED;
         } else {
             return ContextCompat.checkSelfPermission(applicationContext,
-                    Manifest.permission.READ_PRECISE_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+                    Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
         }
     }
 
@@ -151,14 +151,14 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
                 // sees the explanation, try again to request the permission.
             } else {
                 ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.READ_PHONE_NUMBERS}, MY_PERMISSIONS_REQUEST_READ_PRECISE_PHONE_STATE);
+                        new String[]{Manifest.permission.READ_PHONE_NUMBERS}, MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
             }
         } else {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    Manifest.permission.READ_PRECISE_PHONE_STATE)) {
+                    Manifest.permission.READ_PHONE_STATE)) {
             } else {
                 ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.READ_PRECISE_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_PRECISE_PHONE_STATE);
+                        new String[]{Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
             }
         }
     }
@@ -200,7 +200,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
     @SuppressLint("HardwareIds")
     SimCard getSingleSimCard() {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_DENIED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PRECISE_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             Log.e("UNAVAILABLE", "No phone number on sim card Permission Denied#2", null);
             return null;
         } else if (telephonyManager.getLine1Number() == null || telephonyManager.getLine1Number().isEmpty()) {
@@ -215,7 +215,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
         final SubscriptionManager subscriptionManager = (SubscriptionManager) activity.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_DENIED
-                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PRECISE_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+                && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
             Log.e("UNAVAILABLE", "No phone number on sim card Permission Denied#1", null);
             return new ArrayList<>();
         } else if (subscriptionManager == null) {
@@ -230,7 +230,7 @@ public class MobileNumberPlugin implements FlutterPlugin, ActivityAware, MethodC
     public boolean onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                               @NonNull int[] grantResults) {
         // If request is cancelled, the result arrays are empty.
-        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PRECISE_PHONE_STATE) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PHONE_STATE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (permissionEvent != null)
                     permissionEvent.success(true);
